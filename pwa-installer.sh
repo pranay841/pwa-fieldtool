@@ -28,27 +28,27 @@ nvm use 16.14.0
 npm install yarn -g
 npm install rimraf -g
 
-cd /workspace/pwa-deals && sudo apt update && sudo apt -y install expect
+cd /workspace/pwa-fieldtool && sudo apt update && sudo apt -y install expect
 
-chmod a+rwx /workspace/pwa-deals/initialize-theme.sh
-chmod a+rwx /workspace/pwa-deals/install-theme.exp &&
-/workspace/pwa-deals/install-theme.exp
+chmod a+rwx /workspace/pwa-fieldtool/initialize-theme.sh
+chmod a+rwx /workspace/pwa-fieldtool/install-theme.exp &&
+/workspace/pwa-fieldtool/install-theme.exp
 
-cd /workspace/pwa-deals/dealsdev && cp -avr .* /workspace/pwa-deals;
-cd /workspace/pwa-deals && rm -r -f dealsdev;
-cd /workspace/pwa-deals
+cd /workspace/pwa-fieldtool/fieldtooldev && cp -avr .* /workspace/pwa-fieldtool;
+cd /workspace/pwa-fieldtool && rm -r -f fieldtooldev;
+cd /workspace/pwa-fieldtool
 
-mkdir /workspace/pwa-deals/@hbwsl && cd /workspace/pwa-deals/@hbwsl
+mkdir /workspace/pwa-fieldtool/@humcommerce && cd /workspace/pwa-fieldtool/@humcommerce
 
 ORIGIN_VALUE=$(git config --get remote.origin.url)
 
-git clone $ORIGIN_VALUE && mv pwa-deals deals
-cd /workspace/pwa-deals && rm -rf .git
-sed -i 's/_SERVER_PORT=0/_SERVER_PORT=10000/g' /workspace/pwa-deals/.env
+git clone $ORIGIN_VALUE && mv pwa-fieldtool fieldtool
+cd /workspace/pwa-fieldtool && rm -rf .git
+sed -i 's/_SERVER_PORT=0/_SERVER_PORT=10000/g' /workspace/pwa-fieldtool/.env
 
-yarn add axios file-saver sass sass-loader@^10.1.1 link:./@hbwsl/deals
+yarn add sass sass-loader@^10.1.1 link:./@humcommerce/fieldtool
 
 WEBPACK_CONFIG_EXT="config.module.rules.push({test: /\\.s[ca]ss$/,use: ['style-loader',{loader: require.resolve('css-loader'),options: {importLoaders: 1,modules: true,modules : {localIdentName: '[name]__[local]__[hash:base64:3]',},},},'sass-loader']});"
-sed  -i".bak" -e  "/return \[config\]/i $WEBPACK_CONFIG_EXT" /workspace/pwa-deals/webpack.config.js
+sed  -i".bak" -e  "/return \[config\]/i $WEBPACK_CONFIG_EXT" /workspace/pwa-fieldtool/webpack.config.js
 yarn install && yarn run build && yarn run start
 fi
